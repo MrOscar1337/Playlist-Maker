@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:backgroundTint="#FFFDFD"
     android:orientation="vertical">
 
     <LinearLayout
@@ -92,6 +94,8 @@
             app:icon="@drawable/share"
             app:iconGravity="end"
             app:iconTint="@color/black"
+            app:rippleColor="#FFFFFF"
+            app:strokeColor="#FFFFFF"
             tools:ignore="SpeakableTextPresentCheck" />
     </LinearLayout>
 
