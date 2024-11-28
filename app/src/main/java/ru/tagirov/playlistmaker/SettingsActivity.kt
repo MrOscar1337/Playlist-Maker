@@ -4,10 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Switch
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 
 class SettingsActivity : AppCompatActivity() {
@@ -18,15 +15,12 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(layoutRes)
 
 
-        // Настройка переключателя темы
         val themeSwitch = findViewById<Switch>(R.id.themeSwitch)
         val sharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE)
         val isDarkMode = sharedPreferences.getBoolean("DARK_MODE", false)
 
-        // Устанавливаем начальное состояние переключателя
         themeSwitch.isChecked = isDarkMode
 
-        // Слушатель для изменения темы
         themeSwitch.setOnCheckedChangeListener { _, isChecked ->
             saveThemePreference(isChecked)
 
