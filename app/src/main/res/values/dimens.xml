@@ -3,4 +3,6 @@
     <dimen name="sixteenDP">16dp</dimen>
     <dimen name="tenDP">10dp</dimen>
     <dimen name="fortyEightDP">48dp</dimen>
+    <dimen name="twentyDP">20dp</dimen>
+    <dimen name="fourteenthDP">40dp</dimen>
 </resources>

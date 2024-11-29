@@ -1,6 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#1A1B22"
+    android:backgroundTint="#1A1B22"
+    android:orientation="vertical"
+    tools:context=".SearchActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/fourteenthDP"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/fourteenthDP"
+            android:layout_gravity="start"
+            android:layout_marginStart="@dimen/twentyDP"
+            android:gravity="center_vertical"
+            android:text="@string/search"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:translationX="0dp"
+            android:translationY="10dp"
+            tools:ignore="VisualLintBounds" />
+
+    </LinearLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginStart="@dimen/twentyDP"
+        android:layout_marginTop="@dimen/tenDP"
+        android:layout_marginEnd="@dimen/twentyDP"
+        android:backgroundTint="#6BB2B2B8"
+        android:drawableStart="@drawable/search"
+        android:textColor="@color/white"
+        android:drawableTint="#6B79797E"
+        android:foregroundTint="#6B6868"
+        android:background="@color/white"
+        android:hint="@string/search"
+        android:inputType="text"
+        android:lines="1"
+        android:maxLength="10"
+        android:visibility="visible" />
 
 </LinearLayout>

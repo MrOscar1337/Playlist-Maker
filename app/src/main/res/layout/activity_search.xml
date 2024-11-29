@@ -5,47 +5,48 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
+    android:background="@color/white"
+    android:backgroundTint="@color/white"
+    android:orientation="vertical"
     tools:context=".SearchActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:orientation="horizontal"
-        android:visibility="visible">
+        android:layout_height="@dimen/fourteenthDP"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/fourteenthDP"
             android:layout_gravity="start"
+            android:layout_marginStart="@dimen/twentyDP"
             android:gravity="center_vertical"
             android:text="@string/search"
             android:textColor="#1A1B22"
             android:textSize="22sp"
-            android:translationX="30dp"
+            android:translationX="0dp"
             android:translationY="10dp"
             tools:ignore="VisualLintBounds" />
 
     </LinearLayout>
 
-    <LinearLayout
+    <EditText
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:layout_gravity="center"
-        android:orientation="horizontal"
-        android:paddingTop="400dp"
-        android:visibility="visible"
-        tools:ignore="RtlSymmetry">
+        android:layout_height="30dp"
+        android:layout_marginStart="@dimen/twentyDP"
+        android:layout_marginTop="@dimen/tenDP"
+        android:layout_marginEnd="@dimen/twentyDP"
+        android:backgroundTint="#6BB2B2B8"
+        android:drawableStart="@drawable/search"
+        android:background="#6B79797E"
+        android:textColor="@color/black"
+        android:drawableTint="#6B79797E"
+        android:foregroundTint="#6B6868"
+        android:hint="@string/search"
+        android:inputType="text"
+        android:lines="1"
+        android:maxLength="10"
+        android:visibility="visible"/>
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/search"
-            android:inputType="text"
-            android:lines="1"
-            android:maxLength="10"
-            android:textColor="@color/black"
-            android:textColorHint="@color/black" />
-    </LinearLayout>
 </LinearLayout>
