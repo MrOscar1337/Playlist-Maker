@@ -67,14 +67,14 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
-        /*
-        val userAgreementButton = findViewById<Button>(R.id.userAgreementView)
+
+        val userAgreementButton = findViewById<Button>(R.id.viewUserAgreement)
         userAgreementButton.setOnClickListener {
             val agreementUrl = Uri.parse("https://vivt.ru")
             val browserIntent = Intent(Intent.ACTION_VIEW, agreementUrl)
             startActivity(browserIntent)
         }
-         */
+
     }
 
 
