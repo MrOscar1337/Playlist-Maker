@@ -26,27 +26,54 @@
             android:textColor="@color/white"
             android:textSize="22sp"
             android:translationX="0dp"
-            android:translationY="10dp"
+            android:translationY="@dimen/tenDP"
             tools:ignore="VisualLintBounds" />
 
     </LinearLayout>
 
-    <EditText
+    <LinearLayout
+        android:id="@+id/searchContainer"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginStart="@dimen/twentyDP"
+        android:layout_height="@dimen/fourteenthDP"
+        android:orientation="horizontal"
+        android:background="@drawable/search_bar_background"
+        android:padding="@dimen/tenDP"
         android:layout_marginTop="@dimen/tenDP"
+        android:layout_marginStart="@dimen/twentyDP"
         android:layout_marginEnd="@dimen/twentyDP"
-        android:backgroundTint="#6BB2B2B8"
-        android:drawableStart="@drawable/search"
-        android:textColor="@color/white"
-        android:drawableTint="#6B79797E"
-        android:foregroundTint="#6B6868"
-        android:background="@color/white"
-        android:hint="@string/search"
-        android:inputType="text"
-        android:lines="1"
-        android:maxLength="10"
-        android:visibility="visible" />
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/searchIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_menu_search"
+            android:tint="#BBBBBB"
+            android:layout_marginEnd="8dp"
+            tools:ignore="UseAppTint" />
+
+        <EditText
+            android:id="@+id/searchInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/search"
+            android:textSize="16sp"
+            android:background="@android:color/transparent"
+            android:inputType="text"
+            android:padding="0dp"
+            android:textColor="#000000"
+            android:textColorHint="#BBBBBB"/>
+
+        <ImageButton
+            android:id="@+id/clearButton"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@android:color/transparent"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:tint="#AAAAAA"
+            android:visibility="invisible"
+            tools:ignore="UseAppTint" />
+    </LinearLayout>
 
 </LinearLayout>
