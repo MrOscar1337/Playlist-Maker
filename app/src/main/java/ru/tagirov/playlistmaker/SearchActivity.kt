@@ -21,7 +21,6 @@ class SearchActivity : AppCompatActivity() {
         val searchInput = findViewById<EditText>(R.id.searchInput)
         val clearButton = findViewById<ImageButton>(R.id.clearButton)
 
-
         searchInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
@@ -40,6 +39,11 @@ class SearchActivity : AppCompatActivity() {
         clearButton.setOnClickListener {
             searchInput.text.clear()
             hideKeyboard(searchInput)
+        }
+
+        val backButton = findViewById<ImageButton>(R.id.backButton)
+        backButton.setOnClickListener{
+            finish()
         }
     }
 

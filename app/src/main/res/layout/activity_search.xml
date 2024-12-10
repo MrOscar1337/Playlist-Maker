@@ -13,14 +13,24 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/fourteenthDP"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="@dimen/fourteenthDP"
+            android:layout_height="@dimen/fourteenthDP"
+            android:layout_marginStart="@dimen/tenDP"
+            android:layout_marginTop="@dimen/tenDP"
+            android:src="?attr/homeAsUpIndicator"
+            android:visibility="visible"
+            android:backgroundTint="@color/white"
+            app:tint="@color/black" />
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/fourteenthDP"
             android:layout_gravity="start"
-            android:layout_marginStart="@dimen/twentyDP"
+            android:layout_marginStart="@dimen/tenDP"
             android:gravity="center_vertical"
             android:text="@string/search"
             android:textColor="#1A1B22"
@@ -48,7 +58,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@android:drawable/ic_menu_search"
-            android:tint="#BBBBBB"
+            android:tint="@color/black"
             android:layout_marginEnd="8dp"
             tools:ignore="UseAppTint" />
 
@@ -67,11 +77,11 @@
 
         <ImageButton
             android:id="@+id/clearButton"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
             android:background="@android:color/transparent"
             android:src="@android:drawable/ic_menu_close_clear_cancel"
-            android:tint="#AAAAAA"
+            android:tint="@color/black"
             android:visibility="invisible"
             tools:ignore="UseAppTint" />
     </LinearLayout>

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.Switch
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -16,8 +17,6 @@ class SettingsActivity : AppCompatActivity() {
         val layoutRes = getLayoutForTheme()
         super.onCreate(savedInstanceState)
         setContentView(layoutRes)
-
-
 
         val themeSwitch = findViewById<Switch>(R.id.themeSwitch)
         val sharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE)
@@ -39,6 +38,11 @@ class SettingsActivity : AppCompatActivity() {
     @SuppressLint("WrongViewCast")
     private fun setupUI(){
 
+        val backButton = findViewById<ImageButton>(R.id.backButton)
+        backButton.setOnClickListener{
+            finish()
+        }
+
         val shareAppButton = findViewById<Button>(R.id.share)
         shareAppButton.setOnClickListener {
             val shareIntent = Intent(Intent.ACTION_SEND)
@@ -50,9 +54,9 @@ class SettingsActivity : AppCompatActivity() {
 
         val contactSupportButton = findViewById<Button>(R.id.sendToSupport)
         contactSupportButton.setOnClickListener {
-            val supportEmail = "tagirov2004@bk.ru" // Замените своим email
+            val supportEmail = "Atushkanova131@gmail.com"
             val subject = "Сообщение разработчикам Playlist Maker"
-            val body = "Работает!!"
+            val body = "Работает!"
 
             val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
                 data = Uri.parse("mailto:$supportEmail")
