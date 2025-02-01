@@ -11,10 +11,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-
 class SearchActivity : AppCompatActivity() {
 
     private var searchText: String = ""
+    private lateinit var adapter: TrackAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val layoutRes = getLayoutForTheme()
         super.onCreate(savedInstanceState)
@@ -33,6 +34,8 @@ class SearchActivity : AppCompatActivity() {
                 } else {
                     clearButton.visibility = View.VISIBLE
                 }
+                // Фильтруем список при изменении текста
+                adapter.filter(searchText)
             }
 
             override fun afterTextChanged(s: Editable?) {}
@@ -44,9 +47,10 @@ class SearchActivity : AppCompatActivity() {
         }
 
         val backButton = findViewById<ImageButton>(R.id.backButton)
-        backButton.setOnClickListener{
+        backButton.setOnClickListener {
             finish()
         }
+
         val trackList = arrayListOf(
             Track(
                 "Smells Like Teen Spirit",
@@ -82,8 +86,8 @@ class SearchActivity : AppCompatActivity() {
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = TrackAdapter(trackList)
-
+        adapter = TrackAdapter(trackList)
+        recyclerView.adapter = adapter
     }
 
     private fun getLayoutForTheme(): Int {
