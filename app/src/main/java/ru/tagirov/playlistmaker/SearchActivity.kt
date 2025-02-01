@@ -106,7 +106,4 @@ class SearchActivity : AppCompatActivity() {
         val restoredText = savedInstanceState.getString("SEARCH_TEXT", "")
         findViewById<EditText>(R.id.searchInput).setText(restoredText)
     }
-
-
-
 }

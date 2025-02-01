@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="@dimen/eightDP"
-    android:background="@color/white">
+    android:background="#1A1B22"
+    android:padding="@dimen/eightDP">
 
     <ImageView
         android:id="@+id/artwork"
@@ -18,7 +18,7 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/fiftyDP"
         android:layout_weight="1"
-        android:background="@color/white"
+        android:background="#1A1B22"
         android:orientation="vertical"
         android:paddingStart="@dimen/twentyDP"
         tools:ignore="RtlSymmetry">
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="16sp" />
 
         <LinearLayout
@@ -37,13 +37,14 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="4dp">
+
         <TextView
             android:id="@+id/artistName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="14sp" />
 
             <TextView
@@ -51,13 +52,13 @@
                 android:layout_height="wrap_content"
                 android:text=" • "
                 android:textSize="14sp"
-                android:textColor="@color/black" />
+                android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/trackTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>

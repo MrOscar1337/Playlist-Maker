@@ -20,7 +20,7 @@ class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         Glide.with(itemView)
             .load(track.artworkUrl100)
             .fitCenter()
-            .placeholder(R.drawable.placeholder) // Плейсхолдер на случай отсутствия интернета
+            .placeholder(R.drawable.placeholder)
             .into(artwork)
     }
 }
