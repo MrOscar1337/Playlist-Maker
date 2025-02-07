@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class TrackAdapter(private var tracks: List<Track>) : RecyclerView.Adapter<TrackViewHolder>() {
 
-    private var filteredTracks: List<Track> = tracks
+    private var filteredTracks: List<Track> = emptyList() // По умолчанию список пустой
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
         val context = parent.context
@@ -22,10 +22,9 @@ class TrackAdapter(private var tracks: List<Track>) : RecyclerView.Adapter<Track
 
     override fun getItemCount(): Int = filteredTracks.size
 
-    // Метод для фильтрации списка
     fun filter(query: String) {
         filteredTracks = if (query.isEmpty()) {
-            tracks // Если запрос пустой, показываем все треки
+            emptyList() // При пустом запросе список пустой
         } else {
             tracks.filter {
                 it.trackName.contains(query, ignoreCase = true) || it.artistName.contains(query, ignoreCase = true)

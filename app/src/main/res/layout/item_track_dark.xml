@@ -11,8 +11,7 @@
         android:id="@+id/artwork"
         android:layout_width="@dimen/fiftyDP"
         android:layout_height="@dimen/fiftyDP"
-        android:scaleType="fitCenter"
-        android:background="@drawable/rounded_corners" />
+        android:scaleType="fitCenter"/>
 
     <LinearLayout
         android:layout_width="0dp"
