@@ -5,8 +5,10 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,11 +17,20 @@ class SearchActivity : AppCompatActivity() {
 
     private var searchText: String = ""
     private lateinit var adapter: TrackAdapter
+    private lateinit var searchHistory: SearchHistory
+    private lateinit var historyRecyclerView: RecyclerView
+    private lateinit var clearHistoryButton: Button
+    private lateinit var historyTitle: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val layoutRes = getLayoutForTheme()
         super.onCreate(savedInstanceState)
         setContentView(layoutRes)
+
+        searchHistory = SearchHistory(this)
+        historyRecyclerView = findViewById(R.id.historyRecyclerView)
+        clearHistoryButton = findViewById(R.id.clearHistoryButton)
+        historyTitle = findViewById(R.id.historyTitle)
 
         val searchInput = findViewById<EditText>(R.id.searchInput)
         val clearButton = findViewById<ImageButton>(R.id.clearButton)
@@ -31,11 +42,11 @@ class SearchActivity : AppCompatActivity() {
                 searchText = s.toString()
                 if (s.isNullOrEmpty()) {
                     clearButton.visibility = View.INVISIBLE
+                    showHistory()
                 } else {
                     clearButton.visibility = View.VISIBLE
+                    hideHistory()
                 }
-                // Фильтруем список при изменении текста
-                adapter.filter(searchText)
             }
 
             override fun afterTextChanged(s: Editable?) {}
@@ -88,6 +99,34 @@ class SearchActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = TrackAdapter(trackList)
         recyclerView.adapter = adapter
+
+        clearHistoryButton.setOnClickListener {
+            searchHistory.clearHistory()
+            showHistory()
+        }
+
+        showHistory()
+    }
+
+    private fun showHistory() {
+        val history = searchHistory.getHistory()
+        if (history.isNotEmpty()) {
+            historyTitle.visibility = View.VISIBLE
+            historyRecyclerView.visibility = View.VISIBLE
+            clearHistoryButton.visibility = View.VISIBLE
+            historyRecyclerView.layoutManager = LinearLayoutManager(this)
+            historyRecyclerView.adapter = TrackAdapter(history)
+        } else {
+            historyTitle.visibility = View.GONE
+            historyRecyclerView.visibility = View.GONE
+            clearHistoryButton.visibility = View.GONE
+        }
+    }
+
+    private fun hideHistory() {
+        historyTitle.visibility = View.GONE
+        historyRecyclerView.visibility = View.GONE
+        clearHistoryButton.visibility = View.GONE
     }
 
     private fun getLayoutForTheme(): Int {

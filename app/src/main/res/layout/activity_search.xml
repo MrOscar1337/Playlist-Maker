@@ -84,12 +84,46 @@
             android:tint="@color/black"
             android:visibility="invisible"
             tools:ignore="UseAppTint" />
+
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/historyTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/searchHistory"
+            android:layout_gravity="center"/>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/historyRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"/>
+        
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"/>
+        
+        <Button
+            android:id="@+id/clearHistoryButton"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="148dp"
+            android:layout_height="36dp"
+            android:layout_gravity="center"
+            app:cornerRadius="@dimen/sixteenDP"
+            android:fontFamily="@font/ys_display_regular"
+            android:textSize="14sp"
+            android:text="@string/ClearHistory"
+            android:backgroundTint="@color/black"
+            />
+        
+        
+
+    </LinearLayout>
 </LinearLayout>
