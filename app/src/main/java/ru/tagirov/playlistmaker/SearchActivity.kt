@@ -1,5 +1,4 @@
 package ru.tagirov.playlistmaker
-
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,7 +7,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,10 +15,9 @@ class SearchActivity : AppCompatActivity() {
 
     private var searchText: String = ""
     private lateinit var adapter: TrackAdapter
+    private lateinit var historyAdapter: TrackAdapter
     private lateinit var searchHistory: SearchHistory
-    private lateinit var historyRecyclerView: RecyclerView
     private lateinit var clearHistoryButton: Button
-    private lateinit var historyTitle: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val layoutRes = getLayoutForTheme()
@@ -28,12 +25,32 @@ class SearchActivity : AppCompatActivity() {
         setContentView(layoutRes)
 
         searchHistory = SearchHistory(this)
-        historyRecyclerView = findViewById(R.id.historyRecyclerView)
-        clearHistoryButton = findViewById(R.id.clearHistoryButton)
-        historyTitle = findViewById(R.id.historyTitle)
+
+        val backButton = findViewById<ImageButton>(R.id.backButton)
+        backButton.setOnClickListener {
+            finish()
+        }
 
         val searchInput = findViewById<EditText>(R.id.searchInput)
         val clearButton = findViewById<ImageButton>(R.id.clearButton)
+        val historyRecyclerView = findViewById<RecyclerView>(R.id.historyRecyclerView)
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        clearHistoryButton = findViewById(R.id.clearHistoryButton)
+
+        adapter = TrackAdapter(emptyList()) { track ->
+            searchHistory.addTrack(track)
+            updateHistory()
+        }
+        historyAdapter = TrackAdapter(emptyList()) { track ->
+            searchHistory.addTrack(track)
+            updateHistory()
+        }
+
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = adapter
+
+        historyRecyclerView.layoutManager = LinearLayoutManager(this)
+        historyRecyclerView.adapter = historyAdapter
 
         searchInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -45,7 +62,7 @@ class SearchActivity : AppCompatActivity() {
                     showHistory()
                 } else {
                     clearButton.visibility = View.VISIBLE
-                    hideHistory()
+                    showSearchResults()
                 }
             }
 
@@ -55,39 +72,77 @@ class SearchActivity : AppCompatActivity() {
         clearButton.setOnClickListener {
             searchInput.text.clear()
             hideKeyboard(searchInput)
+            showHistory()
         }
 
-        val backButton = findViewById<ImageButton>(R.id.backButton)
-        backButton.setOnClickListener {
-            finish()
+        clearHistoryButton.setOnClickListener {
+            searchHistory.clearHistory()
+            updateHistory()
         }
 
-        val trackList = arrayListOf(
+        showHistory()
+    }
+
+    private fun showHistory() {
+        findViewById<RecyclerView>(R.id.historyRecyclerView).visibility = View.VISIBLE
+        findViewById<RecyclerView>(R.id.recyclerView).visibility = View.GONE
+        updateHistory()
+    }
+
+    private fun showSearchResults() {
+        findViewById<RecyclerView>(R.id.historyRecyclerView).visibility = View.GONE
+        findViewById<RecyclerView>(R.id.recyclerView).visibility = View.VISIBLE
+        performSearch(searchText)
+    }
+
+    private fun updateHistory() {
+        val history = searchHistory.getHistory()
+        historyAdapter.updateData(history)
+
+        if (history.isEmpty()) {
+            clearHistoryButton.visibility = View.GONE
+        } else {
+            clearHistoryButton.visibility = View.VISIBLE
+        }
+    }
+
+    private fun performSearch(query: String) {
+        val searchResults = searchTracks(query)
+        adapter.updateData(searchResults)
+    }
+
+    private fun searchTracks(query: String): List<Track> {
+        val allTracks = listOf(
             Track(
+                1,
                 "Smells Like Teen Spirit",
                 "Nirvana",
                 "5:01",
                 "https://is5-ssl.mzstatic.com/image/thumb/Music115/v4/7b/58/c2/7b58c21a-2b51-2bb2-e59a-9bb9b96ad8c3/00602567924166.rgb.jpg/100x100bb.jpg"
             ),
             Track(
+                2,
                 "Billie Jean",
                 "Michael Jackson",
                 "4:35",
                 "https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/3d/9d/38/3d9d3811-71f0-3a0e-1ada-3004e56ff852/827969428726.jpg/100x100bb.jpg"
             ),
             Track(
+                3,
                 "Stayin' Alive",
                 "Bee Gees",
                 "4:10",
                 "https://is4-ssl.mzstatic.com/image/thumb/Music115/v4/1f/80/1f/1f801fc1-8c0f-ea3e-d3e5-387c6619619e/16UMGIM86640.rgb.jpg/100x100bb.jpg"
             ),
             Track(
+                4,
                 "Whole Lotta Love",
                 "Led Zeppelin",
                 "5:33",
                 "https://is2-ssl.mzstatic.com/image/thumb/Music62/v4/7e/17/e3/7e17e33f-2efa-2a36-e916-7f808576cf6b/mzm.fyigqcbs.jpg/100x100bb.jpg"
             ),
             Track(
+                5,
                 "Sweet Child O'Mine",
                 "Guns N' Roses",
                 "5:03",
@@ -95,38 +150,9 @@ class SearchActivity : AppCompatActivity() {
             )
         )
 
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = TrackAdapter(trackList)
-        recyclerView.adapter = adapter
-
-        clearHistoryButton.setOnClickListener {
-            searchHistory.clearHistory()
-            showHistory()
+        return allTracks.filter { track ->
+            track.trackName.contains(query, ignoreCase = true) || track.artistName.contains(query, ignoreCase = true)
         }
-
-        showHistory()
-    }
-
-    private fun showHistory() {
-        val history = searchHistory.getHistory()
-        if (history.isNotEmpty()) {
-            historyTitle.visibility = View.VISIBLE
-            historyRecyclerView.visibility = View.VISIBLE
-            clearHistoryButton.visibility = View.VISIBLE
-            historyRecyclerView.layoutManager = LinearLayoutManager(this)
-            historyRecyclerView.adapter = TrackAdapter(history)
-        } else {
-            historyTitle.visibility = View.GONE
-            historyRecyclerView.visibility = View.GONE
-            clearHistoryButton.visibility = View.GONE
-        }
-    }
-
-    private fun hideHistory() {
-        historyTitle.visibility = View.GONE
-        historyRecyclerView.visibility = View.GONE
-        clearHistoryButton.visibility = View.GONE
     }
 
     private fun getLayoutForTheme(): Int {
