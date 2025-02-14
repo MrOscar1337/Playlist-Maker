@@ -92,12 +92,6 @@ class SearchActivity : AppCompatActivity() {
             updateHistory()
         }
 
-        retryButton.setOnClickListener {
-            lastFailedQuery?.let { query ->
-                performSearch(query)
-            }
-        }
-
         showHistory()
     }
 
@@ -110,13 +104,18 @@ class SearchActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val tracks = response.body()?.results ?: emptyList()
                     if (tracks.isEmpty()) {
+                        if(searchText.isNullOrEmpty()){
+                            showHistory()
+                            findViewById<RecyclerView>(R.id.recyclerView).visibility = View.GONE
+                        }else{
                         showEmptyResultPlaceholder()
+                        }
                     } else {
                         adapter.updateData(tracks)
                         showSearchResults()
+                        emptyResultPlaceholder.visibility = View.GONE
                     }
                 } else {
-                    showErrorPlaceholder()
                     lastFailedQuery = query
                 }
             }
@@ -126,7 +125,14 @@ class SearchActivity : AppCompatActivity() {
                 lastFailedQuery = query
             }
         })
+
+        retryButton.setOnClickListener {
+            lastFailedQuery?.let { query ->
+                performSearch(query)
+            }
+        }
     }
+
 
     private fun showEmptyResultPlaceholder() {
         findViewById<RecyclerView>(R.id.historyRecyclerView).visibility = View.GONE
