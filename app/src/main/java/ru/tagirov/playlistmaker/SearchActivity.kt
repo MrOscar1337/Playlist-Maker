@@ -7,6 +7,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,6 +22,10 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var historyAdapter: TrackAdapter
     private lateinit var searchHistory: SearchHistory
     private lateinit var clearHistoryButton: Button
+    private lateinit var retryButton: Button
+    private lateinit var emptyResultPlaceholder: LinearLayout
+    private lateinit var errorPlaceholder: LinearLayout
+    private var lastFailedQuery: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val layoutRes = getLayoutForTheme()
@@ -39,6 +44,9 @@ class SearchActivity : AppCompatActivity() {
         val historyRecyclerView = findViewById<RecyclerView>(R.id.historyRecyclerView)
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         clearHistoryButton = findViewById(R.id.clearHistoryButton)
+        retryButton = findViewById(R.id.retryButton)
+        emptyResultPlaceholder = findViewById(R.id.emptyResultPlaceholder)
+        errorPlaceholder = findViewById(R.id.errorPlaceholder)
 
         adapter = TrackAdapter(emptyList()) { track ->
             searchHistory.addTrack(track)
@@ -84,6 +92,12 @@ class SearchActivity : AppCompatActivity() {
             updateHistory()
         }
 
+        retryButton.setOnClickListener {
+            lastFailedQuery?.let { query ->
+                performSearch(query)
+            }
+        }
+
         showHistory()
     }
 
@@ -95,15 +109,37 @@ class SearchActivity : AppCompatActivity() {
             ) {
                 if (response.isSuccessful) {
                     val tracks = response.body()?.results ?: emptyList()
-                    adapter.updateData(tracks)
-                    showSearchResults()
+                    if (tracks.isEmpty()) {
+                        showEmptyResultPlaceholder()
+                    } else {
+                        adapter.updateData(tracks)
+                        showSearchResults()
+                    }
+                } else {
+                    showErrorPlaceholder()
+                    lastFailedQuery = query
                 }
             }
 
             override fun onFailure(call: Call<iTunesSearchResponse>, t: Throwable) {
-                t.printStackTrace()
+                showErrorPlaceholder()
+                lastFailedQuery = query
             }
         })
+    }
+
+    private fun showEmptyResultPlaceholder() {
+        findViewById<RecyclerView>(R.id.historyRecyclerView).visibility = View.GONE
+        findViewById<RecyclerView>(R.id.recyclerView).visibility = View.GONE
+        emptyResultPlaceholder.visibility = View.VISIBLE
+        errorPlaceholder.visibility = View.GONE
+    }
+
+    private fun showErrorPlaceholder() {
+        findViewById<RecyclerView>(R.id.historyRecyclerView).visibility = View.GONE
+        findViewById<RecyclerView>(R.id.recyclerView).visibility = View.GONE
+        emptyResultPlaceholder.visibility = View.GONE
+        errorPlaceholder.visibility = View.VISIBLE
     }
 
     private fun showHistory() {

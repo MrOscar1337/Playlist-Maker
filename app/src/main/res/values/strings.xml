@@ -9,4 +9,7 @@
     <string name="agreement">Пользовательское соглашение</string>
     <string name="searchHistory">История поиска</string>
     <string name="ClearHistory">Очистить</string>
+    <string name="noSearch">Ничего не нашлось</string>
+    <string name="internet">Ошибка сервера</string>
+    <string name="retry">Обновить</string>
 </resources>
