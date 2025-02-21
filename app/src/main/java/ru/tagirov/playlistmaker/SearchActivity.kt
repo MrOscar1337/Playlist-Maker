@@ -1,6 +1,5 @@
 package ru.tagirov.playlistmaker
 import android.os.Bundle
-import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -15,6 +14,11 @@ import androidx.recyclerview.widget.RecyclerView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.Timer
+import java.util.TimerTask
+
+
+
 
 class SearchActivity : AppCompatActivity() {
 
@@ -75,11 +79,23 @@ class SearchActivity : AppCompatActivity() {
                     showHistory()
                 } else {
                     clearButton.visibility = View.VISIBLE
-                    performSearch(searchText)
                 }
             }
+            private var timer = Timer()
+            private val DELAY: Long = 1000 
 
-            override fun afterTextChanged(s: Editable?) {}
+            override fun afterTextChanged(s: Editable?) {
+                timer.cancel()
+                timer = Timer()
+                timer.schedule(
+                    object : TimerTask() {
+                        override fun run() {
+                            performSearch(searchText)
+                        }
+                    },
+                    DELAY
+                )
+            }
         })
 
         clearButton.setOnClickListener {
@@ -97,7 +113,6 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun performSearch(query: String) {
-        Handler().postDelayed({
         RetrofitClient.instance.searchTracks(query).enqueue(object : Callback<iTunesSearchResponse> {
             override fun onResponse(
                 call: Call<iTunesSearchResponse>,
@@ -134,7 +149,6 @@ class SearchActivity : AppCompatActivity() {
                 performSearch(query)
             }
         }
-        }, 2000)
     }
 
 
