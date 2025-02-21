@@ -1,5 +1,6 @@
 package ru.tagirov.playlistmaker
 import android.os.Bundle
+import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -96,11 +97,13 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun performSearch(query: String) {
+        Handler().postDelayed({
         RetrofitClient.instance.searchTracks(query).enqueue(object : Callback<iTunesSearchResponse> {
             override fun onResponse(
                 call: Call<iTunesSearchResponse>,
                 response: Response<iTunesSearchResponse>
             ) {
+
                 if (response.isSuccessful) {
                     val tracks = response.body()?.results ?: emptyList()
                     if (tracks.isEmpty()) {
@@ -131,6 +134,7 @@ class SearchActivity : AppCompatActivity() {
                 performSearch(query)
             }
         }
+        }, 2000)
     }
 
 
