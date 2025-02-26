@@ -1,6 +1,7 @@
 package ru.tagirov.playlistmaker
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -19,7 +20,13 @@ class TrackAdapter(private var tracks: List<Track>,
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
         val track = tracks[position]
         holder.bind(track)
-        holder.itemView.setOnClickListener { onItemClick(track) }
+        holder.itemView.setOnClickListener {
+            onItemClick(track)
+            val intent = Intent(holder.itemView.context, PlayerActivity::class.java).apply {
+                putExtra("TRACK", track)
+            }
+            holder.itemView.context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int = tracks.size
