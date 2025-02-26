@@ -13,8 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.Timer
-import java.util.TimerTask
 
 class SearchActivity : AppCompatActivity() {
 
@@ -68,23 +66,11 @@ class SearchActivity : AppCompatActivity() {
                     showHistory()
                 } else {
                     clearButton.visibility = View.VISIBLE
+                    performSearch(searchText)
                 }
             }
-            private var timer = Timer()
-            private val DELAY: Long = 1000
 
-            override fun afterTextChanged(s: Editable?) {
-                timer.cancel()
-                timer = Timer()
-                timer.schedule(
-                    object : TimerTask() {
-                        override fun run() {
-                            performSearch(searchText)
-                        }
-                    },
-                    DELAY
-                )
-            }
+            override fun afterTextChanged(s: Editable?) {}
         })
 
         clearButton.setOnClickListener {
