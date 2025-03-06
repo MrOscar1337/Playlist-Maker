@@ -58,6 +58,23 @@ data class Track(
         return SimpleDateFormat("mm:ss", Locale.getDefault()).format(trackTimeMillis)
     }
 
+    fun getFormattedReleaseDate(): String? {
+        return if (releaseDate.isNullOrEmpty()) {
+            null
+        } else {
+            try {
+                val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+                val date = inputFormat.parse(releaseDate)
+
+                val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                outputFormat.format(date)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            }
+        }
+    }
+
     fun getCoverArtwork(): String {
         return artworkUrl100.replaceAfterLast('/', "512x512bb.jpg")
     }
