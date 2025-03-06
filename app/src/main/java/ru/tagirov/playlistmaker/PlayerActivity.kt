@@ -57,7 +57,7 @@ class PlayerActivity : AppCompatActivity() {
                     val currentPosition = mediaPlayer.currentPosition
                     progressTime.text = formatTime(currentPosition)
                 }
-                handler.postDelayed(this, 1000) // Обновляем каждую секунду
+                handler.postDelayed(this, 1000)
             }
         }
     }
