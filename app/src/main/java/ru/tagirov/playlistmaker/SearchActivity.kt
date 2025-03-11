@@ -72,7 +72,7 @@ class SearchActivity : AppCompatActivity() {
             }
 
             private var timer = Timer()
-            private val DELAY: Long = 1000
+            private val DELAY: Long = 500
             override fun afterTextChanged(s: Editable?) {
                 timer.cancel()
                 timer = Timer()

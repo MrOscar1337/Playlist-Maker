@@ -12,4 +12,9 @@
     <string name="noSearch">Ничего не нашлось</string>
     <string name="internet">Ошибка сервера</string>
     <string name="retry">Обновить</string>
+    <string name="trackTime">Длительность</string>
+    <string name="collection">Альбом</string>
+    <string name="releaseDate">Дата релиза</string>
+    <string name="genreName">Жанр</string>
+    <string name="country">Страна</string>
 </resources>

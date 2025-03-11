@@ -126,11 +126,11 @@ class PlayerActivity : AppCompatActivity() {
     private fun displayTrackDetails(track: Track) {
         findViewById<TextView>(R.id.trackName).text = track.trackName
         findViewById<TextView>(R.id.artistName).text = track.artistName
-        findViewById<TextView>(R.id.collectionName).text = track.collectionName ?: ""
-        findViewById<TextView>(R.id.releaseDate).text = track.getFormattedReleaseDate() ?: ""
-        findViewById<TextView>(R.id.primaryGenreName).text = track.primaryGenreName ?: ""
-        findViewById<TextView>(R.id.country).text = track.country ?: ""
-        findViewById<TextView>(R.id.trackTime).text = track.getFormattedTrackTime(track.trackTimeMillis)
+        findViewById<TextView>(R.id.collectionValue).text = track.collectionName ?: ""
+        findViewById<TextView>(R.id.releaseValue).text = track.getFormattedReleaseDate() ?: ""
+        findViewById<TextView>(R.id.genreValue).text = track.primaryGenreName ?: ""
+        findViewById<TextView>(R.id.countryValue).text = track.country ?: ""
+        findViewById<TextView>(R.id.timeValue).text = track.getFormattedTrackTime(track.trackTimeMillis)
 
         val coverArtwork = findViewById<ImageView>(R.id.coverArtwork)
         Glide.with(this)

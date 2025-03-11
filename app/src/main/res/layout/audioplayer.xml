@@ -17,130 +17,236 @@
         android:visibility="visible"
         android:backgroundTint="@color/white"
         app:tint="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/coverArtwork"
-        android:layout_width="@dimen/zeroDP"
-        android:layout_height="@dimen/zeroDP"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:scaleType="centerCrop"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintTop_toBottomOf="@id/backButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintDimensionRatio="1:1"
         android:layout_margin="@dimen/thirtyDP" />
+
     <TextView
         android:id="@+id/trackName"
-        android:layout_width="@dimen/zeroDP"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         android:textColor="@color/black"
-        android:gravity="center"
+        android:gravity="start"
         android:maxLines="1"
         android:ellipsize="end"
         app:layout_constraintTop_toBottomOf="@id/coverArtwork"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="@dimen/sixteenDP" />
+        android:layout_marginTop="@dimen/tenDP"
+        android:layout_marginStart="@dimen/tenDP"/>
 
     <TextView
         android:id="@+id/artistName"
-        android:layout_width="@dimen/zeroDP"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:gravity="center"
+        android:textSize="14sp"
+        android:gravity="start"
         android:textColor="@color/black"
         android:maxLines="1"
         android:ellipsize="end"
         app:layout_constraintTop_toBottomOf="@id/trackName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="@dimen/fiveDP" />
+        android:layout_marginTop="@dimen/threeDP"
+        android:layout_marginStart="@dimen/tenDP"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/addToPlaylistButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:icon="@drawable/ic_add_to_playlist"
+        app:iconTint="@color/dark"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:layout_constraintTop_toBottomOf="@id/artistName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/playButton"
+        android:layout_marginEnd="@dimen/eightDP"
+        android:layout_marginTop="@dimen/eightDP" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/playButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:icon="@drawable/ic_play"
+        app:iconTint="@color/dark"
         android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintTop_toBottomOf="@id/artistName"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/addToPlaylistButton"
+        app:layout_constraintEnd_toStartOf="@id/likeButton"
+        android:layout_marginHorizontal="@dimen/eightDP" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/likeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:icon="@drawable/ic_like"
+        app:iconTint="@color/dark"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:layout_constraintTop_toBottomOf="@id/artistName"
+        app:layout_constraintStart_toEndOf="@id/playButton"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="@dimen/eightDP" />
+        android:layout_marginStart="@dimen/eightDP"
+        android:layout_marginTop="@dimen/eightDP" />
 
     <TextView
         android:id="@+id/progressTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="00:00"
-        android:textSize="14sp"
+        android:textSize="13sp"
         android:textColor="@color/black"
         app:layout_constraintTop_toBottomOf="@id/playButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="@dimen/eightDP" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
         android:id="@+id/collectionName"
-        android:layout_width="@dimen/zeroDP"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
+        android:textSize="13sp"
         android:textColor="@color/black"
-        android:gravity="center"
+        android:gravity="start"
+        android:layout_marginStart="@dimen/eightDP"
         android:maxLines="1"
+        android:text="@string/collection"
         android:ellipsize="end"
         app:layout_constraintTop_toBottomOf="@id/progressTime"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/collectionValue"
+        android:layout_marginTop="@dimen/fiveDP" />
+
+    <TextView
+        android:id="@+id/collectionValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textColor="@color/black"
+        android:gravity="end"
+        android:layout_marginEnd="@dimen/eightDP"
+        app:layout_constraintTop_toBottomOf="@id/progressTime"
+        app:layout_constraintStart_toEndOf="@id/collectionName"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="@dimen/fiveDP" />
+        android:layout_marginTop="@dimen/fiveDP" />
 
     <TextView
         android:id="@+id/releaseDate"
-        android:layout_width="@dimen/zeroDP"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
+        android:textSize="13sp"
+        android:text="@string/releaseDate"
         android:textColor="@color/black"
-        android:gravity="center"
+        android:gravity="start"
+        android:layout_marginStart="@dimen/eightDP"
         app:layout_constraintTop_toBottomOf="@id/collectionName"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/releaseValue"
+        android:layout_marginTop="@dimen/fiveDP" />
+
+    <TextView
+        android:id="@+id/releaseValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textColor="@color/black"
+        android:layout_marginEnd="@dimen/eightDP"
+        android:gravity="end"
+        app:layout_constraintTop_toBottomOf="@id/collectionName"
+        app:layout_constraintStart_toEndOf="@id/releaseDate"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="@dimen/fiveDP" />
+        android:layout_marginTop="@dimen/fiveDP" />
 
     <TextView
         android:id="@+id/primaryGenreName"
-        android:layout_width="@dimen/zeroDP"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
+        android:textSize="13sp"
+        android:text="@string/genreName"
         android:textColor="@color/black"
-        android:gravity="center"
+        android:layout_marginStart="@dimen/eightDP"
+        android:gravity="start"
         app:layout_constraintTop_toBottomOf="@id/releaseDate"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/genreValue"
+        android:layout_marginTop="@dimen/fiveDP" />
+
+    <TextView
+        android:id="@+id/genreValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textColor="@color/black"
+        android:layout_marginEnd="@dimen/eightDP"
+        android:gravity="end"
+        app:layout_constraintTop_toBottomOf="@id/releaseDate"
+        app:layout_constraintStart_toEndOf="@id/primaryGenreName"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="@dimen/fiveDP" />
+        android:layout_marginTop="@dimen/fiveDP" />
 
     <TextView
         android:id="@+id/country"
-        android:layout_width="@dimen/zeroDP"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:gravity="center"
+        android:textSize="13sp"
+        android:layout_marginStart="@dimen/eightDP"
+        android:gravity="start"
+        android:text="@string/country"
         android:textColor="@color/black"
         app:layout_constraintTop_toBottomOf="@id/primaryGenreName"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/countryValue"
+        android:layout_marginTop="@dimen/fiveDP" />
+
+    <TextView
+        android:id="@+id/countryValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textColor="@color/black"
+        android:layout_marginEnd="@dimen/eightDP"
+        android:gravity="end"
+        app:layout_constraintTop_toBottomOf="@id/primaryGenreName"
+        app:layout_constraintStart_toEndOf="@id/country"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="@dimen/fiveDP" />
+        android:layout_marginTop="@dimen/fiveDP" />
 
     <TextView
         android:id="@+id/trackTime"
-        android:layout_width="@dimen/zeroDP"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
+        android:textSize="13sp"
+        android:text="@string/trackTime"
         android:textColor="@color/black"
-        android:gravity="center"
+        android:layout_marginStart="@dimen/eightDP"
+        android:gravity="start"
         app:layout_constraintTop_toBottomOf="@id/country"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/timeValue"
+        android:layout_marginTop="@dimen/fiveDP" />
+
+    <TextView
+        android:id="@+id/timeValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textColor="@color/black"
+        android:layout_marginEnd="@dimen/eightDP"
+        android:gravity="end"
+        app:layout_constraintTop_toBottomOf="@id/country"
+        app:layout_constraintStart_toEndOf="@id/trackTime"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="@dimen/fiveDP" />
+        android:layout_marginTop="@dimen/fiveDP" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
