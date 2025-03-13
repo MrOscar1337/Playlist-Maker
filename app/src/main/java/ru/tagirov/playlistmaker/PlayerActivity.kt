@@ -18,6 +18,7 @@ class PlayerActivity : AppCompatActivity() {
     private lateinit var handler: Handler
     private lateinit var runnable: Runnable
     private var isPlaying = false
+    private var currentPosition = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val layoutRes = getLayoutForTheme()
@@ -34,9 +35,9 @@ class PlayerActivity : AppCompatActivity() {
         if (track != null) {
             displayTrackDetails(track)
             setupMediaPlayer(track.previewUrl)
-
         }
     }
+
     private fun setupMediaPlayer(previewUrl: String?) {
         mediaPlayer = MediaPlayer()
         handler = Handler(Looper.getMainLooper())
@@ -54,7 +55,7 @@ class PlayerActivity : AppCompatActivity() {
         runnable = object : Runnable {
             override fun run() {
                 if (mediaPlayer.isPlaying) {
-                    val currentPosition = mediaPlayer.currentPosition
+                    currentPosition = mediaPlayer.currentPosition
                     progressTime.text = formatTime(currentPosition)
                 }
                 handler.postDelayed(this, 1000)
@@ -71,6 +72,7 @@ class PlayerActivity : AppCompatActivity() {
                 mediaPlayer.setDataSource(previewUrl)
                 mediaPlayer.prepareAsync()
                 mediaPlayer.setOnPreparedListener {
+                    mediaPlayer.seekTo(currentPosition) // Воспроизведение с сохраненной позиции
                     mediaPlayer.start()
                     isPlaying = true
                     findViewById<MaterialButton>(R.id.playButton).setIconResource(R.drawable.ic_pause)
