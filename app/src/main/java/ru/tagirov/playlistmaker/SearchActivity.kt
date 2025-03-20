@@ -7,6 +7,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,6 +24,10 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var historyAdapter: TrackAdapter
     private lateinit var searchHistory: SearchHistory
     private lateinit var clearHistoryButton: Button
+    private lateinit var retryButton: Button
+    private lateinit var emptyResultPlaceholder: LinearLayout
+    private lateinit var errorPlaceholder: LinearLayout
+    private var lastFailedQuery: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val layoutRes = getLayoutForTheme()
@@ -41,6 +46,9 @@ class SearchActivity : AppCompatActivity() {
         val historyRecyclerView = findViewById<RecyclerView>(R.id.historyRecyclerView)
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         clearHistoryButton = findViewById(R.id.clearHistoryButton)
+        retryButton = findViewById(R.id.retryButton)
+        emptyResultPlaceholder = findViewById(R.id.emptyResultPlaceholder)
+        errorPlaceholder = findViewById(R.id.errorPlaceholder)
 
         adapter = TrackAdapter(emptyList()) { track ->
             searchHistory.addTrack(track)
@@ -51,12 +59,17 @@ class SearchActivity : AppCompatActivity() {
             updateHistory()
         }
 
+        retryButton.setOnClickListener {
+            lastFailedQuery?.let { query ->
+                performSearch(query)
+            }
+        }
+
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
 
         historyRecyclerView.layoutManager = LinearLayoutManager(this)
         historyRecyclerView.adapter = historyAdapter
-
 
         searchInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -68,6 +81,7 @@ class SearchActivity : AppCompatActivity() {
                     showHistory()
                 } else {
                     clearButton.visibility = View.VISIBLE
+                    hidePlaceholders()
                 }
             }
 
@@ -76,6 +90,9 @@ class SearchActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {
                 timer.cancel()
                 timer = Timer()
+                if (s.isNullOrEmpty()) {
+                    return
+                }
                 timer.schedule(
                     object : TimerTask() {
                         override fun run() {
@@ -109,24 +126,34 @@ class SearchActivity : AppCompatActivity() {
             ) {
                 if (response.isSuccessful) {
                     val tracks = response.body()?.results ?: emptyList()
-                    adapter.updateData(tracks)
-                    showSearchResults()
+                    if (tracks.isNotEmpty()) {
+                        adapter.updateData(tracks)
+                        showSearchResults()
+                    } else {
+                        showEmptyResultPlaceholder()
+                    }
+                } else {
+                    showErrorPlaceholder()
                 }
             }
 
             override fun onFailure(call: Call<iTunesSearchResponse>, t: Throwable) {
                 t.printStackTrace()
+                showErrorPlaceholder()
+                lastFailedQuery = searchText
             }
         })
     }
 
     private fun showHistory() {
+        hidePlaceholders()
         findViewById<RecyclerView>(R.id.historyRecyclerView).visibility = View.VISIBLE
         findViewById<RecyclerView>(R.id.recyclerView).visibility = View.GONE
         updateHistory()
     }
 
     private fun showSearchResults() {
+        hidePlaceholders()
         findViewById<RecyclerView>(R.id.historyRecyclerView).visibility = View.GONE
         findViewById<RecyclerView>(R.id.recyclerView).visibility = View.VISIBLE
     }
@@ -148,14 +175,18 @@ class SearchActivity : AppCompatActivity() {
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString("SEARCH_TEXT", searchText)
+    private fun hidePlaceholders() {
+        emptyResultPlaceholder.visibility = View.GONE
+        errorPlaceholder.visibility = View.GONE
     }
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        val restoredText = savedInstanceState.getString("SEARCH_TEXT", "")
-        findViewById<EditText>(R.id.searchInput).setText(restoredText)
+    private fun showEmptyResultPlaceholder() {
+        hidePlaceholders()
+        emptyResultPlaceholder.visibility = View.VISIBLE
+    }
+
+    private fun showErrorPlaceholder() {
+        hidePlaceholders()
+        errorPlaceholder.visibility = View.VISIBLE
     }
 }
