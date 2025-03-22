@@ -152,6 +152,11 @@ class SearchActivity : AppCompatActivity() {
         updateHistory()
     }
 
+    private fun hideHistory(){
+        findViewById<RecyclerView>(R.id.historyRecyclerView).visibility = View.GONE
+        clearHistoryButton.visibility = View.GONE
+    }
+
     private fun showSearchResults() {
         hidePlaceholders()
         findViewById<RecyclerView>(R.id.historyRecyclerView).visibility = View.GONE
@@ -182,11 +187,13 @@ class SearchActivity : AppCompatActivity() {
 
     private fun showEmptyResultPlaceholder() {
         hidePlaceholders()
+        hideHistory()
         emptyResultPlaceholder.visibility = View.VISIBLE
     }
 
     private fun showErrorPlaceholder() {
         hidePlaceholders()
+        hideHistory()
         errorPlaceholder.visibility = View.VISIBLE
     }
 }
