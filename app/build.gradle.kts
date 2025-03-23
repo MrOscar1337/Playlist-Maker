@@ -56,7 +56,8 @@ dependencies {
     val room_version = "2.6.1"
 
     implementation("androidx.room:room-runtime:$room_version")
-
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:$room_version")
+    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:$room_version")
 
     // If this project only uses Java source, use the Java annotationProcessor
     // No additional plugins are necessary

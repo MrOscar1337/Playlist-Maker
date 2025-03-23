@@ -3,9 +3,12 @@ package ru.tagirov.playlistmaker
 import android.icu.text.SimpleDateFormat
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.room.*
 import java.util.Locale
 
+@Entity(tableName = "tracks")
 data class Track(
+    @PrimaryKey
     val trackId: Int,
     val trackName: String,
     val artistName: String,
