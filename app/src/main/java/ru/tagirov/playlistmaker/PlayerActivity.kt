@@ -8,8 +8,10 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
+import kotlinx.coroutines.launch
 import java.io.IOException
 
 class PlayerActivity : AppCompatActivity() {
@@ -17,6 +19,7 @@ class PlayerActivity : AppCompatActivity() {
     private lateinit var mediaPlayer: MediaPlayer
     private lateinit var handler: Handler
     private lateinit var runnable: Runnable
+    private lateinit var favoriteDao: FavoriteDao
     private var isPlaying = false
     private var currentPosition = 0
 
@@ -35,6 +38,40 @@ class PlayerActivity : AppCompatActivity() {
         if (track != null) {
             displayTrackDetails(track)
             setupMediaPlayer(track.previewUrl)
+        }
+
+        favoriteDao = AppDatabase.getDatabase(this).favoriteDao()
+        setupFavoriteButton()
+    }
+
+    private fun setupFavoriteButton() {
+        val favoriteButton = findViewById<MaterialButton>(R.id.likeButton)
+        val track = intent.getParcelableExtra<Track>("TRACK") ?: return
+
+        lifecycleScope.launch {
+            val isFavorite = favoriteDao.isFavorite(track.trackId)
+            updateFavoriteButton(isFavorite, favoriteButton)
+        }
+
+        favoriteButton.setOnClickListener {
+            lifecycleScope.launch {
+                val isFavorite = favoriteDao.isFavorite(track.trackId)
+                if (isFavorite) {
+                    favoriteDao.removeFavorite(track.trackId)
+                } else {
+                    val favorite = Favorite(track.trackId)
+                    favoriteDao.addFavorite(favorite)
+                }
+                updateFavoriteButton(!isFavorite, favoriteButton)
+            }
+        }
+    }
+
+    private fun updateFavoriteButton(isFavorite: Boolean, button: MaterialButton) {
+        if (isFavorite) {
+            button.setIconResource(R.drawable.ic_like_fill)
+        } else {
+            button.setIconResource(R.drawable.ic_like)
         }
     }
 

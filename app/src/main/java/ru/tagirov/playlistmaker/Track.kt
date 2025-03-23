@@ -20,6 +20,7 @@ data class Track(
     val country: String?,
     val previewUrl: String?
 ): Parcelable {
+    @Ignore
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
         parcel.readString() ?: "",
@@ -32,7 +33,7 @@ data class Track(
         parcel.readString(),
         parcel.readString()
     )
-
+    @Ignore
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(trackId)
         parcel.writeString(trackName)
@@ -45,25 +46,26 @@ data class Track(
         parcel.writeString(country)
         parcel.writeString(previewUrl)
     }
-
+    @Ignore
     override fun describeContents(): Int {
         return 0
     }
 
     companion object CREATOR : Parcelable.Creator<Track> {
+        @Ignore
         override fun createFromParcel(parcel: Parcel): Track {
             return Track(parcel)
         }
-
+        @Ignore
         override fun newArray(size: Int): Array<Track?> {
             return arrayOfNulls(size)
         }
     }
-
+    @Ignore
     fun getFormattedTrackTime(trackTimeMillis: Long): String {
         return SimpleDateFormat("mm:ss", Locale.getDefault()).format(trackTimeMillis)
     }
-
+    @Ignore
     fun getFormattedReleaseDate(): String? {
         return if (releaseDate.isNullOrEmpty()) {
             null
@@ -80,7 +82,7 @@ data class Track(
             }
         }
     }
-
+    @Ignore
     fun getCoverArtwork(): String {
         return artworkUrl100.replaceAfterLast('/', "512x512bb.jpg")
     }
